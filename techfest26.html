@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pixel Wizard techFEST'26</title>
+<style>
+:root{--bg:#0b0b1a;--card:#14142b;--card2:#1b1b3a;--line:#2a2a55;--tx:#eceaff;--mut:#9a98c4;--p:#8b5cf6;--c:#22d3ee;--ok:#34d399;--err:#fb7185;--g:linear-gradient(135deg,#8b5cf6,#22d3ee)}
+*{box-sizing:border-box;margin:0}
+body{background:var(--bg);color:var(--tx);font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;min-height:100vh}
+body:before{content:"";position:fixed;inset:0;background:radial-gradient(600px 400px at 10% -5%,#8b5cf633,transparent),radial-gradient(500px 400px at 100% 10%,#22d3ee22,transparent);pointer-events:none;z-index:-1}
+a{color:inherit;text-decoration:none}
+nav{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 5vw;background:#0b0b1acc;backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.logo{font-weight:800;letter-spacing:.5px;font-size:18px}.logo b{background:var(--g);-webkit-background-clip:text;background-clip:text;color:transparent}
+.links{display:flex;gap:4px;flex-wrap:wrap}
+.links a{padding:7px 13px;border-radius:99px;color:var(--mut);font-size:14px;font-weight:600;transition:.2s}
+.links a:hover{color:var(--tx)}.links a.on{background:var(--card2);color:var(--tx)}
+@media(max-width:640px){nav{flex-direction:column;align-items:flex-start;gap:6px}.links a{padding:6px 10px;font-size:13px}}
+main{max-width:1120px;margin:auto;padding:28px 5vw 60px;animation:fade .4s}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+h1{font-size:clamp(34px,7vw,64px);line-height:1.05;font-weight:900}
+h2{font-size:clamp(24px,4vw,32px);margin-bottom:6px}
+.grad{background:var(--g);-webkit-background-clip:text;background-clip:text;color:transparent}
+.mut{color:var(--mut)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:11px 20px;border-radius:12px;border:1px solid var(--line);background:var(--card2);color:var(--tx);font:600 15px inherit;cursor:pointer;transition:.2s}
+.btn:hover{transform:translateY(-2px);border-color:var(--p)}
+.btn.pri{background:var(--g);border:0;color:#0b0b1a}
+.btn.sm{padding:6px 12px;font-size:13px;border-radius:9px}.btn.dan{color:var(--err)}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.hero{padding:40px 0 30px;text-align:center}
+.pill{display:inline-block;padding:5px 14px;border-radius:99px;border:1px solid var(--line);background:var(--card);font-size:13px;color:var(--c);font-weight:600;margin-bottom:18px}
+.hero p.tag{font-size:clamp(17px,2.5vw,22px);color:var(--mut);margin:14px auto 22px;max-width:640px}
+.cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+.meta{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:18px 0}
+.meta span{background:var(--card);border:1px solid var(--line);padding:8px 14px;border-radius:12px;font-size:14px}
+.count{display:flex;gap:12px;justify-content:center;margin:26px 0}
+.count div{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 8px;min-width:76px}
+.count b{display:block;font-size:30px;background:var(--g);-webkit-background-clip:text;background-clip:text;color:transparent}
+.count small{color:var(--mut);font-size:12px;text-transform:uppercase;letter-spacing:1px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:18px;margin-top:18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:10px;transition:.25s;position:relative;overflow:hidden}
+.card:hover{transform:translateY(-4px);border-color:var(--p);box-shadow:0 10px 30px #8b5cf622}
+.card h3{font-size:18px}
+.tagc{align-self:flex-start;font-size:12px;font-weight:700;padding:3px 10px;border-radius:99px;background:#8b5cf622;color:#c4b5fd}
+.info{font-size:14px;color:var(--mut)}
+.seats{font-size:13px;font-weight:600}.seats.low{color:#fbbf24}.seats.full{color:var(--err)}
+.bar{height:6px;background:var(--card2);border-radius:9px;overflow:hidden}.bar i{display:block;height:100%;background:var(--g)}
+.row{display:flex;gap:8px;margin-top:auto;flex-wrap:wrap}
+.feat{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin:30px 0}
+.feat .card .ic{font-size:30px}
+.tools{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0}
+input,select,textarea{width:100%;background:var(--card);border:1px solid var(--line);color:var(--tx);padding:11px 14px;border-radius:12px;font:inherit;outline:0}
+input:focus,select:focus,textarea:focus{border-color:var(--c)}
+.tools input{flex:1;min-width:200px}.tools select{width:auto;min-width:150px}
+label{font-size:13px;font-weight:600;color:var(--mut);display:block;margin:12px 0 5px}
+.err-t{color:var(--err);font-size:12px;margin-top:4px;min-height:14px}
+.form{max-width:520px;margin:18px auto;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:24px}
+.tl{margin-top:16px;position:relative;padding-left:22px;border-left:2px solid var(--line)}
+.ti{position:relative;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-bottom:14px}
+.ti:before{content:"";position:absolute;left:-30px;top:20px;width:12px;height:12px;border-radius:50%;background:var(--g);box-shadow:0 0 0 4px var(--bg)}
+.ti .tm{font-weight:800;color:var(--c);font-size:14px}
+.dh{font-weight:800;margin:22px 0 10px -22px;color:var(--p)}
+.tabs{display:flex;gap:8px;margin:14px 0;flex-wrap:wrap}
+.tabs button.on{background:var(--g);color:#0b0b1a;border:0}
+.warn{background:#fbbf2418;border:1px solid #fbbf2455;color:#fcd34d;padding:10px 14px;border-radius:12px;font-size:14px;margin:10px 0}
+.tw{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:16px}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:560px}
+th,td{padding:11px 14px;text-align:left;border-bottom:1px solid var(--line)}
+th{color:var(--mut);font-size:12px;text-transform:uppercase;letter-spacing:.8px}
+tr:last-child td{border:0}
+dialog{background:var(--card);color:var(--tx);border:1px solid var(--p);border-radius:20px;padding:24px;width:min(560px,92vw);max-height:90vh;overflow:auto;margin:auto}
+dialog::backdrop{background:#000a;backdrop-filter:blur(4px)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:520px){.two{grid-template-columns:1fr}}
+#toasts{position:fixed;bottom:18px;right:18px;z-index:99;display:flex;flex-direction:column;gap:8px;max-width:calc(100vw - 36px)}
+.toast{padding:12px 18px;border-radius:12px;background:var(--card2);border-left:4px solid var(--ok);box-shadow:0 8px 24px #0008;animation:fade .3s}
+.toast.e{border-color:var(--err)}
+.sk{height:210px;border-radius:18px;background:linear-gradient(90deg,var(--card) 25%,var(--card2) 50%,var(--card) 75%);background-size:200% 100%;animation:sh 1.2s infinite}
+@keyframes sh{to{background-position:-200% 0}}
+.empty{text-align:center;padding:40px;color:var(--mut)}
+.ok-box{text-align:center;padding:10px}.ok-box .big{font-size:54px}
+footer{text-align:center;color:var(--mut);font-size:13px;padding:24px}
+</style>
+</head>
+<body>
+<nav>
+  <a href="#/" class="logo">⚡ Pixel Wizard <b>techFEST'26</b></a>
+  <div class="links" id="links"></div>
+</nav>
+<main id="app"></main>
+<footer>Pixel Wizard techFEST'26 · Frontend prototype · Data stored in your browser only</footer>
+<div id="toasts"></div>
+<dialog id="dlg"></dialog>
+
+<script>
+const KEY='pw_techfest26_v1';
+const CATS=['Hackathon','Workshop','Talk','Gaming','Cultural'];
+const FEST_START=new Date('2026-11-14T09:00:00+05:30');
+const DAYS=['2026-11-14','2026-11-15'];
+
+const SEED={
+ events:[
+  {id:'e1',title:'PixelHack 24',category:'Hackathon',date:'2026-11-14',time:'10:00',venue:'Main Auditorium',cap:60,desc:'A 24-hour build marathon. Form teams of up to 4 and ship a working product. Mentors, snacks and prizes worth ₹50,000.'},
+  {id:'e2',title:'Intro to Generative AI',category:'Workshop',date:'2026-11-14',time:'11:00',venue:'Lab 3, CS Block',cap:40,desc:'Hands-on session on prompting, APIs and building a small AI assistant. Bring your laptop.'},
+  {id:'e3',title:'Future of Web Dev',category:'Talk',date:'2026-11-14',time:'14:00',venue:'Seminar Hall A',cap:120,desc:'Industry speakers discuss frameworks, performance and the road ahead for frontend engineers.'},
+  {id:'e4',title:'Valorant Showdown',category:'Gaming',date:'2026-11-14',time:'16:00',venue:'Gaming Arena',cap:32,desc:'5v5 knockout tournament. Register your team captain; teams are seeded on the day.'},
+  {id:'e5',title:'Cloud & DevOps Bootcamp',category:'Workshop',date:'2026-11-15',time:'09:30',venue:'Lab 1, IT Block',cap:35,desc:'Containers, CI/CD and deploying your first app to the cloud in one morning.'},
+  {id:'e6',title:'Startup Pitch Arena',category:'Talk',date:'2026-11-15',time:'12:00',venue:'Seminar Hall B',cap:80,desc:'Student founders pitch to a panel of investors. Watch, learn and network.'},
+  {id:'e7',title:'Retro Arcade Night',category:'Gaming',date:'2026-11-15',time:'17:00',venue:'Student Lounge',cap:50,desc:'Classic arcade cabinets, speed-run contests and a leaderboard with goodies.'},
+  {id:'e8',title:'Tech Cultural Night',category:'Cultural',date:'2026-11-15',time:'19:00',venue:'Open Air Theatre',cap:200,desc:'Live music, dance and a closing ceremony with the festival awards.'}
+ ],
+ regs:[]
+};
+// seed some registrations
+['Aarav Mehta','Diya Sharma','Rohan Verma','Sneha Reddy','Kabir Singh','Ananya Iyer','Vikram Rao','Priya Nair','Arjun Das','Meera Joshi','Ishaan Gupta','Tara Kapoor'].forEach((n,i)=>{
+  const ev=SEED.events[i%5];
+  SEED.regs.push({id:'r'+i,eventId:ev.id,name:n,email:n.split(' ')[0].toLowerCase()+'@example.com',phone:'98765'+String(43210+i*37).slice(0,5),ts:Date.now()-i*3600000});
+});
+
+let S=load();
+function load(){try{const d=JSON.parse(localStorage.getItem(KEY));if(d&&d.events&&d.regs)return d}catch(e){}return clone(SEED)}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){toast('Storage unavailable',1)}}
+function clone(o){return JSON.parse(JSON.stringify(o))}
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const uid=p=>p+Date.now().toString(36)+Math.random().toString(36).slice(2,5);
+
+// derived data — single source of truth for seats
+const taken=id=>S.regs.filter(r=>r.eventId===id).length;
+const left=e=>Math.max(0,e.cap-taken(e.id));
+const evById=id=>S.events.find(e=>e.id===id);
+const fmtDate=d=>new Date(d+'T00:00').toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short'});
+const fmtTime=t=>{const[h,m]=t.split(':').map(Number);return(h%12||12)+':'+String(m).padStart(2,'0')+(h<12?' AM':' PM')};
+const sorted=l=>[...l].sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));
+
+function toast(msg,err){const t=document.createElement('div');t.className='toast'+(err?' e':'');t.textContent=msg;$('#toasts').append(t);setTimeout(()=>t.remove(),3500)}
+
+function modal(html){const d=$('#dlg');d.innerHTML=html;if(!d.open)d.showModal();d.onclick=e=>{if(e.target===d)d.close()}}
+const closeModal=()=>$('#dlg').close();
+function confirmBox(msg,yes){
+  modal(`<h2>Are you sure?</h2><p class="mut" style="margin:8px 0 18px">${msg}</p><div class="row" style="justify-content:flex-end"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn dan" id="cy">Yes, delete</button></div>`);
+  $('#cy').onclick=()=>{closeModal();yes()};
+}
+
+/* ---------- ROUTER ---------- */
+let filt={q:'',cat:'All'},sch={day:'All',cat:'All'},admTab='events',admReg='All',timer;
+const routes={'':home,events,schedule,register,admin};
+const NAV=[['','Home'],['events','Events'],['schedule','Schedule'],['register','Register'],['admin','Admin (Demo)']];
+function route(){
+  clearInterval(timer);
+  const [r,arg]=location.hash.replace('#/','').replace('#','').split('/');
+  const key=routes[r]?r:'';
+  $('#links').innerHTML=NAV.map(([k,l])=>`<a href="#/${k}" class="${k===key?'on':''}">${l}</a>`).join('');
+  $('#app').innerHTML='';
+  (routes[key])(arg);
+  window.scrollTo(0,0);
+}
+window.addEventListener('hashchange',route);
+const rerender=()=>{const y=scrollY;route();scrollTo(0,y)};
+
+/* ---------- HOME ---------- */
+function home(){
+  const total=S.regs.length;
+  $('#app').innerHTML=`
+  <section class="hero">
+    <span class="pill">🗓 14–15 Nov 2026 · Hyderabad</span>
+    <h1>Pixel Wizard<br><span class="grad">techFEST'26</span></h1>
+    <p class="tag">Two days of code, creativity and competition. Build, learn, play and celebrate tech with 1000+ students.</p>
+    <div class="meta"><span>📍 Main Campus, Engineering Block</span><span>🎟 ${S.events.length} events</span><span>🙌 ${total} registrations so far</span></div>
+    <div class="count" id="cd"></div>
+    <div class="cta"><a class="btn pri" href="#/events">Explore Events</a><a class="btn" href="#/register">Register Now</a></div>
+  </section>
+  <section><h2>About the fest</h2><p class="mut" style="max-width:760px">Pixel Wizard techFEST is the annual technical festival where engineering students showcase skills through hackathons, workshops, talks, gaming and cultural nights. Pick your events, register in seconds and be part of the biggest campus tech celebration.</p></section>
+  <section class="feat">
+    <div class="card"><div class="ic">💻</div><h3>24-hour Hackathon</h3><p class="info">Team up and build something real with mentors on call.</p></div>
+    <div class="card"><div class="ic">🧠</div><h3>Hands-on Workshops</h3><p class="info">AI, cloud and web — learn by doing, not watching.</p></div>
+    <div class="card"><div class="ic">🎮</div><h3>Gaming Arena</h3><p class="info">Esports and retro arcade with a live leaderboard.</p></div>
+    <div class="card"><div class="ic">🎤</div><h3>Industry Talks</h3><p class="info">Hear from founders, engineers and creators.</p></div>
+  </section>
+  <h2>Featured events</h2>
+  <div class="grid">${sorted(S.events).slice(0,3).map(cardHTML).join('')||'<p class="empty">No events yet.</p>'}</div>`;
+  const tick=()=>{
+    let d=FEST_START-Date.now();const el=$('#cd');if(!el)return;
+    if(d<=0){el.innerHTML='<b class="grad" style="font-size:28px">The fest is live! 🎉</b>';return}
+    const v=[['Days',864e5],['Hours',36e5],['Mins',6e4],['Secs',1e3]].map(([n,m])=>{const x=Math.floor(d/m);d-=x*m;return`<div><b>${String(x).padStart(2,'0')}</b><small>${n}</small></div>`});
+    el.innerHTML=v.join('');
+  };
+  tick();timer=setInterval(tick,1000);
+}
+
+/* ---------- EVENTS ---------- */
+function cardHTML(e){
+  const l=left(e),pct=Math.round(taken(e.id)/e.cap*100);
+  return`<div class="card">
+    <span class="tagc">${esc(e.category)}</span>
+    <h3>${esc(e.title)}</h3>
+    <div class="info">📅 ${fmtDate(e.date)} · ${fmtTime(e.time)}<br>📍 ${esc(e.venue)}</div>
+    <p class="info">${esc(e.desc.length>90?e.desc.slice(0,90)+'…':e.desc)}</p>
+    <div class="bar"><i style="width:${pct}%"></i></div>
+    <div class="seats ${l===0?'full':l<=5?'low':''}">${l===0?'Sold out':l+' of '+e.cap+' seats left'}</div>
+    <div class="row"><button class="btn sm" onclick="details('${e.id}')">Details</button>
+    <button class="btn sm pri" ${l===0?'disabled':''} onclick="location.hash='#/register/${e.id}'">${l===0?'Full':'Register'}</button></div>
+  </div>`;
+}
+function events(){
+  $('#app').innerHTML=`<h2>Events &amp; Activities</h2><p class="mut">Find something that fits your skills.</p>
+  <div class="tools"><input id="q" placeholder="🔍 Search events, venues…" value="${esc(filt.q)}">
+  <select id="cat"><option>All</option>${CATS.map(c=>`<option ${c===filt.cat?'selected':''}>${c}</option>`).join('')}</select></div>
+  <div class="grid" id="gr">${'<div class="sk"></div>'.repeat(6)}</div>`;
+  const draw=()=>{
+    const q=filt.q.toLowerCase();
+    const l=sorted(S.events).filter(e=>(filt.cat==='All'||e.category===filt.cat)&&(!q||(e.title+e.venue+e.desc+e.category).toLowerCase().includes(q)));
+    $('#gr').innerHTML=l.length?l.map(cardHTML).join(''):'<div class="empty" style="grid-column:1/-1">No events match your search 😕</div>';
+  };
+  setTimeout(()=>$('#gr')&&draw(),350);
+  $('#q').oninput=e=>{filt.q=e.target.value;draw()};
+  $('#cat').onchange=e=>{filt.cat=e.target.value;draw()};
+}
+function details(id){
+  const e=evById(id);if(!e)return;const l=left(e);
+  modal(`<span class="tagc">${esc(e.category)}</span><h2 style="margin-top:8px">${esc(e.title)}</h2>
+  <p class="info" style="margin:6px 0 12px">📅 ${fmtDate(e.date)} · ${fmtTime(e.time)}<br>📍 ${esc(e.venue)}<br>🎟 ${taken(id)} registered · ${l} seats left (capacity ${e.cap})</p>
+  <p>${esc(e.desc)}</p>
+  <div class="row" style="margin-top:18px;justify-content:flex-end"><button class="btn" onclick="closeModal()">Close</button>
+  <button class="btn pri" ${l===0?'disabled':''} onclick="closeModal();location.hash='#/register/${id}'">${l===0?'Sold out':'Register for this event'}</button></div>`);
+}
+
+/* ---------- SCHEDULE ---------- */
+function schedule(){
+  $('#app').innerHTML=`<h2>Festival Schedule</h2><p class="mut">Plan your two days.</p>
+  <div class="tools"><select id="sd"><option value="All">All days</option>${DAYS.map(d=>`<option value="${d}" ${d===sch.day?'selected':''}>${fmtDate(d)}</option>`).join('')}</select>
+  <select id="sc"><option>All</option>${CATS.map(c=>`<option ${c===sch.cat?'selected':''}>${c}</option>`).join('')}</select></div><div id="tl"></div>`;
+  const draw=()=>{
+    const l=sorted(S.events).filter(e=>(sch.day==='All'||e.date===sch.day)&&(sch.cat==='All'||e.category===sch.cat));
+    if(!l.length){$('#tl').innerHTML='<div class="empty">Nothing scheduled for this filter.</div>';return}
+    let h='<div class="tl">',last='';
+    l.forEach(e=>{
+      if(e.date!==last){h+=`<div class="dh">${fmtDate(e.date)}</div>`;last=e.date}
+      h+=`<div class="ti"><div class="tm">${fmtTime(e.time)}</div><b>${esc(e.title)}</b> <span class="tagc">${esc(e.category)}</span>
+      <div class="info">📍 ${esc(e.venue)} · ${left(e)} seats left</div>
+      <div class="row" style="margin-top:8px"><button class="btn sm" onclick="details('${e.id}')">Details</button></div></div>`;
+    });
+    $('#tl').innerHTML=h+'</div>';
+  };
+  draw();
+  $('#sd').onchange=e=>{sch.day=e.target.value;draw()};
+  $('#sc').onchange=e=>{sch.cat=e.target.value;draw()};
+}
+
+/* ---------- REGISTER ---------- */
+function register(pre){
+  const opts=sorted(S.events).map(e=>`<option value="${e.id}" ${left(e)===0?'disabled':''} ${e.id===pre?'selected':''}>${esc(e.title)} — ${fmtDate(e.date)} (${left(e)===0?'FULL':left(e)+' left'})</option>`).join('');
+  $('#app').innerHTML=`<h2 style="text-align:center">Register</h2><p class="mut" style="text-align:center">Secure your seat in under a minute.</p>
+  <form class="form" id="rf" novalidate>
+    <label>Event</label><select id="rev"><option value="">Select an event…</option>${opts}</select><div class="err-t" id="e-ev"></div>
+    <label>Full name</label><input id="rn" placeholder="e.g. Aarav Mehta"><div class="err-t" id="e-n"></div>
+    <label>Email</label><input id="rm" type="email" placeholder="you@college.edu"><div class="err-t" id="e-m"></div>
+    <label>Phone</label><input id="rp" type="tel" placeholder="10-digit mobile number"><div class="err-t" id="e-p"></div>
+    <button class="btn pri" style="width:100%;margin-top:14px" id="rb">Confirm Registration</button>
+  </form>`;
+  $('#rf').onsubmit=ev=>{
+    ev.preventDefault();
+    const v={eventId:$('#rev').value,name:$('#rn').value.trim(),email:$('#rm').value.trim().toLowerCase(),phone:$('#rp').value.trim()};
+    const er={};
+    if(!v.eventId||!evById(v.eventId))er.ev='Please select an event.';
+    if(v.name.length<2)er.n='Please enter your name.';
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.email))er.m='Enter a valid email address.';
+    if(!/^\+?[\d\s-]{10,14}$/.test(v.phone)||v.phone.replace(/\D/g,'').length<10)er.p='Enter a valid 10-digit phone number.';
+    ['ev','n','m','p'].forEach(k=>$('#e-'+k).textContent=er[k]||'');
+    if(Object.keys(er).length)return toast('Please fix the highlighted fields.',1);
+    const e=evById(v.eventId);
+    if(S.regs.some(r=>r.eventId===v.eventId&&r.email===v.email)){$('#e-m').textContent='This email is already registered for this event.';return toast('Duplicate registration blocked.',1)}
+    if(left(e)===0)return toast('Sorry, this event just sold out.',1);
+    const b=$('#rb');b.disabled=true;b.textContent='Registering…';
+    setTimeout(()=>{
+      const reg={id:uid('r'),...v,ts:Date.now()};
+      S.regs.push(reg);save();
+      $('#app').innerHTML=`<div class="form ok-box"><div class="big">🎉</div><h2>You're in, ${esc(v.name.split(' ')[0])}!</h2>
+      <p class="mut" style="margin:8px 0">Registered for <b>${esc(e.title)}</b><br>${fmtDate(e.date)} · ${fmtTime(e.time)} · ${esc(e.venue)}</p>
+      <p class="info">Confirmation ID: <b>${reg.id.toUpperCase()}</b><br>Seats left: ${left(e)} of ${e.cap}</p>
+      <div class="row" style="justify-content:center;margin-top:16px"><a class="btn" href="#/events">Browse more</a><a class="btn pri" href="#/register">Register another</a></div></div>`;
+      toast('Registration successful!');
+    },600);
+  };
+}
+
+/* ---------- ADMIN ---------- */
+function admin(){
+  const a=$('#app');
+  a.innerHTML=`<h2>Admin Dashboard</h2>
+  <div class="warn">⚠️ <b>Demo only</b> — no real authentication. Anyone can open this page; data lives in your browser's localStorage.</div>
+  <div class="row" style="margin:12px 0">
+    <button class="btn pri" onclick="eventForm()">+ Add Event</button>
+    <button class="btn dan" onclick="resetDemo()">↺ Reset demo data</button></div>
+  <div class="tabs"><button class="btn sm ${admTab==='events'?'on':''}" onclick="admTab='events';rerender()">Events (${S.events.length})</button>
+  <button class="btn sm ${admTab==='regs'?'on':''}" onclick="admTab='regs';rerender()">Registrations (${S.regs.length})</button></div><div id="ad"></div>`;
+  if(admTab==='events'){
+    $('#ad').innerHTML=`<div class="tw"><table><tr><th>Event</th><th>Date</th><th>Venue</th><th>Registered</th><th></th></tr>
+    ${sorted(S.events).map(e=>`<tr><td><b>${esc(e.title)}</b><br><span class="mut">${esc(e.category)}</span></td><td>${fmtDate(e.date)}<br>${fmtTime(e.time)}</td><td>${esc(e.venue)}</td><td>${taken(e.id)} / ${e.cap}</td>
+    <td><div class="row"><button class="btn sm" onclick="eventForm('${e.id}')">Edit</button><button class="btn sm dan" onclick="delEvent('${e.id}')">Delete</button></div></td></tr>`).join('')||'<tr><td colspan="5" class="empty">No events. Add one!</td></tr>'}</table></div>`;
+  }else{
+    if(admReg!=='All'&&!evById(admReg))admReg='All';
+    const l=S.regs.filter(r=>admReg==='All'||r.eventId===admReg).sort((x,y)=>y.ts-x.ts);
+    $('#ad').innerHTML=`<div class="tools"><select id="af"><option value="All">All events</option>${sorted(S.events).map(e=>`<option value="${e.id}" ${e.id===admReg?'selected':''}>${esc(e.title)} (${taken(e.id)})</option>`).join('')}</select></div>
+    <div class="tw"><table><tr><th>Participant</th><th>Email</th><th>Phone</th><th>Event</th><th></th></tr>
+    ${l.map(r=>`<tr><td>${esc(r.name)}</td><td>${esc(r.email)}</td><td>${esc(r.phone)}</td><td>${esc((evById(r.eventId)||{title:'—'}).title)}</td>
+    <td><button class="btn sm dan" onclick="delReg('${r.id}')">Remove</button></td></tr>`).join('')||'<tr><td colspan="5" class="empty">No registrations yet.</td></tr>'}</table></div>`;
+    $('#af').onchange=e=>{admReg=e.target.value;rerender()};
+  }
+}
+function eventForm(id){
+  const e=id?evById(id):{title:'',category:CATS[0],date:DAYS[0],time:'10:00',venue:'',cap:50,desc:''};
+  modal(`<h2>${id?'Edit':'Add'} event</h2><form id="ef" novalidate>
+  <label>Title</label><input id="f-t" value="${esc(e.title)}">
+  <div class="two"><div><label>Category</label><select id="f-c">${CATS.map(c=>`<option ${c===e.category?'selected':''}>${c}</option>`).join('')}</select></div>
+  <div><label>Capacity (seats)</label><input id="f-cap" type="number" min="1" value="${e.cap}"></div></div>
+  <div class="two"><div><label>Date</label><input id="f-d" type="date" value="${e.date}"></div><div><label>Time</label><input id="f-tm" type="time" value="${e.time}"></div></div>
+  <label>Venue</label><input id="f-v" value="${esc(e.venue)}">
+  <label>Description</label><textarea id="f-ds" rows="3">${esc(e.desc)}</textarea>
+  <div class="err-t" id="f-err"></div>
+  <div class="row" style="justify-content:flex-end;margin-top:12px"><button type="button" class="btn" onclick="closeModal()">Cancel</button><button class="btn pri">${id?'Save changes':'Create event'}</button></div></form>`);
+  $('#ef').onsubmit=ev=>{
+    ev.preventDefault();
+    const n={title:$('#f-t').value.trim(),category:$('#f-c').value,cap:parseInt($('#f-cap').value,10),date:$('#f-d').value,time:$('#f-tm').value,venue:$('#f-v').value.trim(),desc:$('#f-ds').value.trim()};
+    let m='';
+    if(!n.title||!n.venue||!n.desc||!n.date||!n.time)m='Please fill in all fields.';
+    else if(!(n.cap>0))m='Capacity must be at least 1.';
+    else if(id&&n.cap<taken(id))m=`Capacity can't be below current registrations (${taken(id)}).`;
+    if(m){$('#f-err').textContent=m;return}
+    if(id)Object.assign(evById(id),n);else S.events.push({id:uid('e'),...n});
+    save();closeModal();toast(id?'Event updated.':'Event created.');rerender();
+  };
+}
+function delEvent(id){
+  const e=evById(id),n=taken(id);
+  confirmBox(`Delete <b>${esc(e.title)}</b>?${n?` Its ${n} registration(s) will also be removed.`:''} This cannot be undone.`,()=>{
+    S.events=S.events.filter(x=>x.id!==id);S.regs=S.regs.filter(r=>r.eventId!==id);save();toast('Event deleted.');rerender();
+  });
+}
+function delReg(id){
+  const r=S.regs.find(x=>x.id===id);
+  confirmBox(`Remove registration of <b>${esc(r.name)}</b>? The seat will be freed.`,()=>{S.regs=S.regs.filter(x=>x.id!==id);save();toast('Registration removed.');rerender()});
+}
+function resetDemo(){
+  modal(`<h2>Reset demo data?</h2><p class="mut" style="margin:8px 0 18px">All changes will be lost and the original sample events and registrations restored.</p><div class="row" style="justify-content:flex-end"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn dan" id="ry">Reset</button></div>`);
+  $('#ry').onclick=()=>{S=clone(SEED);save();filt={q:'',cat:'All'};sch={day:'All',cat:'All'};admReg='All';closeModal();toast('Demo data restored.');rerender()};
+}
+route();
+</script>
+</body>
+</html>
